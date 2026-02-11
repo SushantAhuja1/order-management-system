@@ -49,7 +49,7 @@ public class CustomerService {
         try(Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             Sheet sheet = workbook.createSheet("Orders Report");
             //Header Row
-            String[] headers = {"Customer ID", "Customer Name", "Email", "Product", "Price", "Quantity"};
+            String[] headers = {"Customer ID", "Customer Name", "Email", "Product", "Price", "Quantity", "Order Id"};
             Row headerRow = sheet.createRow(0);
             for(int i=0; i<headers.length; i++) {
                 Cell cell = headerRow.createCell(i);
@@ -67,6 +67,7 @@ public class CustomerService {
                         row.createCell(3).setCellValue(order.getProductName());
                         row.createCell(4).setCellValue(order.getPrice());
                         row.createCell(5).setCellValue(order.getQuantity());
+                        row.createCell(6).setCellValue(order.getId());
                     }
                 }
             }

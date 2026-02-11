@@ -27,6 +27,7 @@ public class CustomerController {
         return customerService.getAllCustomers();
     }
     //export-excel
+    //http://localhost:8080/api/customers/export-excel
     @GetMapping("/export-excel")
     public ResponseEntity<byte[]> downloadExcel() throws IOException {
         byte[] excelContent = customerService.exportCustomerToExcel();

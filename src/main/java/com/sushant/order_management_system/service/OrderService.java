@@ -1,6 +1,5 @@
 package com.sushant.order_management_system.service;
 
-import com.sushant.order_management_system.dto.CustomerOrderDTO;
 import com.sushant.order_management_system.dto.CustomerOrderResponseDTO;
 import com.sushant.order_management_system.entity.Customer_Order;
 import com.sushant.order_management_system.repository.CustomerOrderRepository;
