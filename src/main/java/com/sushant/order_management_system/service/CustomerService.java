@@ -10,13 +10,16 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -48,15 +51,29 @@ public class CustomerService {
         List<CustomerDTO> customers = getAllCustomers();
         try(Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             Sheet sheet = workbook.createSheet("Orders Report");
+            int rowIndex=0;
+            //Main Heading
+            Row titleRow = sheet.createRow(rowIndex++);
+            Cell titleCell = titleRow.createCell(0);
+            titleCell.setCellValue("Customer Order Report");
+            //merge the cells
+            sheet.addMergedRegion(new CellRangeAddress(0,0,0,6));
+            //blank row
+            rowIndex++;
+            //printing date in MM-dd-yyyy format
+            Row dateRow = sheet.createRow(rowIndex++);
+            String currentFormattedDate = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
+            dateRow.createCell(0).setCellValue("Printed Date : "+currentFormattedDate);
+            //blank row
+            rowIndex++;
             //Header Row
             String[] headers = {"Customer ID", "Customer Name", "Email", "Product", "Price", "Quantity", "Order Id"};
-            Row headerRow = sheet.createRow(0);
+            Row headerRow = sheet.createRow(rowIndex++);
             for(int i=0; i<headers.length; i++) {
                 Cell cell = headerRow.createCell(i);
                 cell.setCellValue(headers[i]);
             }
             //fill-data-rows
-            int rowIndex=1;
             for(CustomerDTO customer : customers) {
                 if(customer.getOrders()!=null) {
                     for(var order : customer.getOrders()) {
