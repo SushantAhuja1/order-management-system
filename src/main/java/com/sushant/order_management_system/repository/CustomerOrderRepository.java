@@ -10,4 +10,6 @@ public interface CustomerOrderRepository extends JpaRepository<Customer_Order,Lo
     List<Customer_Order> findByProductNameContaining(String productName);
     @Query(value = "SELECT c.id,c.name,c.email,o.product_name,o.price,o.quantity,o.id AS order_id FROM customer AS c INNER JOIN customer_order o ON c.id = o.customer_id", nativeQuery = true)
     List<Object[]> customQueryJoin();
+    @Query(value = "SELECT c.id,c.name,o.product_name,o.price,o.id AS order_id FROM customer AS c INNER JOIN customer_order AS o ON c.id = o.customer_id WHERE c.id=:customerId",nativeQuery = true)
+    List<Object[]> customQueryForACustomer(Long customerId);
 }

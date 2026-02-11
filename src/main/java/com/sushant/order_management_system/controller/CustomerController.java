@@ -1,6 +1,7 @@
 package com.sushant.order_management_system.controller;
 
 import com.sushant.order_management_system.dto.CustomerDTO;
+import com.sushant.order_management_system.dto.CustomerOrderResponseDTO;
 import com.sushant.order_management_system.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -35,5 +36,10 @@ public class CustomerController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=customer_orders_report.xlsx")
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excelContent);
+    }
+    //Get-specific-customer-orders
+    @GetMapping("/orders/{id}")
+    public ResponseEntity<List<CustomerOrderResponseDTO>> getCustomerOrders(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.getOrdersForCustomers(id));
     }
 }
